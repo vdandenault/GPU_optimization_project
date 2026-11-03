@@ -1,0 +1,74 @@
+# macOS metadata
+.DS_Store
+._*
+.Spotlight-V100/
+.Trashes/
+
+# Python bytecode and compiled extensions
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Packaging and build artifacts
+build/
+dist/
+*.egg-info/
+*.egg
+.eggs/
+pip-wheel-metadata/
+
+# Test, coverage, lint, and type-checker caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.pyre/
+.pytype/
+.tox/
+.nox/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+nosetests.xml
+
+# Jupyter notebook checkpoints (keep notebooks themselves)
+.ipynb_checkpoints/
+
+# Local secrets and environment configuration
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Editor settings and temporary files
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+*.log
+
+# GPU compiler caches and generated binaries
+.triton/
+.torch_extensions/
+*.cubin
+*.fatbin
+
+# NVIDIA Nsight profiling reports
+*.nsys-rep
+*.ncu-rep
+*.qdrep
+*.nsys-rep.sqlite
+
+# Local experiment tracking and TensorBoard output
+/runs/
+/wandb/
+/mlruns/
+events.out.tfevents.*
