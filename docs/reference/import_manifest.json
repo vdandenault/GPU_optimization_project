@@ -1,0 +1,128 @@
+{
+  "source_repository": "https://github.com/pierrelux/rlbook",
+  "source_commit": "ce6014fe75aee4906793c96de87ed179c989b99e",
+  "imported_on": "2026-11-04",
+  "notes": "Files copied from the local working tree; individual hashes identify imported bytes. Code may be adapted locally after import. Reference notes are archival text, not executable book pages.",
+  "files": [
+    {
+      "path": "code/inference_serving.py",
+      "source_path": "code/inference_serving.py",
+      "sha256_at_import": "a54f73fe9089cccb88db433e9fbe23ff5ae06193854189c9963c266b7a8608a8"
+    },
+    {
+      "path": "code/inference_control.py",
+      "source_path": "code/inference_control.py",
+      "sha256_at_import": "8769cb5de57bbc437cbfc603053ffca435f8e49aa7a9f76ebdb0295ca8b4f4ed"
+    },
+    {
+      "path": "code/inference_replay.py",
+      "source_path": "code/inference_replay.py",
+      "sha256_at_import": "a6cad2656919bb4e52972876e0dfc553aef02a502d89455bd47e0f762a236787"
+    },
+    {
+      "path": "scripts/build_inference_artifacts.py",
+      "source_path": "scripts/build_inference_artifacts.py",
+      "sha256_at_import": "df506dead84c332a1a9680a56a416ffa57729af1641c201ce278d0f96f2a9002"
+    },
+    {
+      "path": "tests/test_inference_serving.py",
+      "source_path": "tests/test_inference_serving.py",
+      "sha256_at_import": "cd5af895c99431b812e4a1b946b2dee6b4a3ab3740b53727384cae95e8917201"
+    },
+    {
+      "path": "tests/test_inference_control.py",
+      "source_path": "tests/test_inference_control.py",
+      "sha256_at_import": "6186bb52a95f02f314d9a7d312a72e6b75b773db87a2cff0d51fcf533a84922b"
+    },
+    {
+      "path": "tests/test_inference_replay.py",
+      "source_path": "tests/test_inference_replay.py",
+      "sha256_at_import": "5392366480a3af2ecde0aa624c38f618f6064041cd6ffffe9e4b5b7c255a55bb"
+    },
+    {
+      "path": "data/inference_serving/azure_code_animation.csv",
+      "source_path": "data/inference_serving/azure_code_animation.csv",
+      "sha256_at_import": "45bc410827d33c111bec98baa5a1ae862de516407d865ce43529cfca80f81081"
+    },
+    {
+      "path": "data/inference_serving/azure_code_evaluation.csv",
+      "source_path": "data/inference_serving/azure_code_evaluation.csv",
+      "sha256_at_import": "21f953acec35f926bf591e25704ba998b9949d2ff4fb9bbe0eaa4d6b7b67e7d1"
+    },
+    {
+      "path": "data/inference_serving/l4_profile.csv",
+      "source_path": "data/inference_serving/l4_profile.csv",
+      "sha256_at_import": "218900ff093f474b27a8bb5c2151567c9d505b7f7b81fdd281082e476cf0f12d"
+    },
+    {
+      "path": "data/inference_serving/l4_profile_all_requested.csv",
+      "source_path": "data/inference_serving/l4_profile_all_requested.csv",
+      "sha256_at_import": "9cf2429716eca9de79e1ae26e97d02eeb189c231f809fce606ab1c8de9efdbff"
+    },
+    {
+      "path": "data/inference_serving/l4_profile_raw.csv",
+      "source_path": "data/inference_serving/l4_profile_raw.csv",
+      "sha256_at_import": "c9c21883bef9dafe9353581b30f3b55a94661b4d00587198be6f6bd9eb5164f3"
+    },
+    {
+      "path": "data/inference_serving/l4_telemetry.csv",
+      "source_path": "data/inference_serving/l4_telemetry.csv",
+      "sha256_at_import": "3a021f0c74b840114046278397d18d8ecaab040b9aa4bcc27456175a51019937"
+    },
+    {
+      "path": "data/inference_serving/profile_manifest.json",
+      "source_path": "data/inference_serving/profile_manifest.json",
+      "sha256_at_import": "f49643b8e935c15d296c12fc12ebc574365ba615fd74663c5367941d7a15fdc0"
+    },
+    {
+      "path": "data/inference_serving/vllm.log",
+      "source_path": "data/inference_serving/vllm.log",
+      "sha256_at_import": "9b242666ce167d29daac29975d3e6027b1268de929724aecc398b303ae086299"
+    },
+    {
+      "path": "artifacts/inference_serving/textbook_results.json",
+      "source_path": "artifacts/inference_serving/textbook_results.json",
+      "sha256_at_import": "00857eea8e94a3d9f01565c0605053fe19dc8e07b413840c6e150f20ed278d7c"
+    },
+    {
+      "path": "artifacts/inference_serving/metrics_mpc.csv",
+      "source_path": "artifacts/inference_serving/metrics_mpc.csv",
+      "sha256_at_import": "a52fce495c7c8256273ab0675b4455bc906e51f50e653c0dd9a4d73b2bc3d0fd"
+    },
+    {
+      "path": "artifacts/inference_serving/metrics_fqi.csv",
+      "source_path": "artifacts/inference_serving/metrics_fqi.csv",
+      "sha256_at_import": "d2186eaf5dc6052403923637a71d6b05a10ed11c7f3b8db9f3b3e0bc2d5bc691"
+    },
+    {
+      "path": "artifacts/inference_serving/metrics_dp.csv",
+      "source_path": "artifacts/inference_serving/metrics_dp.csv",
+      "sha256_at_import": "2dadc3cae5179fd134bf140d72c4e4246bcc9c426320fb20eb535f85e0545d96"
+    },
+    {
+      "path": "artifacts/inference_serving/metrics_open_loop.csv",
+      "source_path": "artifacts/inference_serving/metrics_open_loop.csv",
+      "sha256_at_import": "9cf7cfb51a93dc901bb77928618596d8f5c594fa8b1d1216146a9eb6268e45dc"
+    },
+    {
+      "path": "docs/reference/mpc-variants-reliability.txt",
+      "source_path": "mpc-variants-reliability.md",
+      "sha256_at_import": "aefa10d82f6fd92a48ef676011fcf5fd7618b7e1989fbd3f40e4b760947800ab"
+    },
+    {
+      "path": "docs/reference/original-data-notes.txt",
+      "source_path": "data/inference_serving/README.md",
+      "sha256_at_import": "5c8d45071046ace829127a310ec704a86d12cb0c622c02854c05bd2844d2e9e4"
+    },
+    {
+      "path": "docs/reference/original-reproduction-notes.txt",
+      "source_path": "artifacts/inference_serving/README.md",
+      "sha256_at_import": "e85985eb28544fa1ca94575bd4727cdd8ce369357eeb3763fb317a0582908004"
+    },
+    {
+      "path": "docs/reference/live-control-development.txt",
+      "source_path": "artifacts/inference_serving/live_control_development/README.md",
+      "sha256_at_import": "9c334f174b3e81a9a2d0c90788afcacbc3d74e5e8390163a04e47834d5ff1972"
+    }
+  ]
+}

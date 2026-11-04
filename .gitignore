@@ -54,6 +54,8 @@ nosetests.xml
 *.swo
 *~
 *.log
+# The archived serving log is required by the reference profile checksums.
+!data/inference_serving/vllm.log
 
 # GPU compiler caches and generated binaries
 .triton/
