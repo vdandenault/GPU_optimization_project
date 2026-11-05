@@ -1,0 +1,22 @@
+{
+  "diagnostic_repeats_full_run_metrics_and_request_timings_exactly": true,
+  "reference_clock_replay_matches_all_reference_metrics_and_request_timings_exactly": true,
+  "diagnostic_solves": 67,
+  "diagnostic_accepted_solves": 67,
+  "diagnostic_max_solve_time_s": 0.0487146670002403,
+  "deadline_s": 0.8,
+  "changed_applied_actions": [
+    {
+      "time_s": 21.00000000000003,
+      "raw_first_clock_mhz": 2039.9999999999975,
+      "quantized_first_clock_mhz": 1125.0,
+      "reference_first_clock_mhz": 2040.0,
+      "distance_below_2040_mhz": 2.5011104298755527e-12,
+      "accepted": true,
+      "solve_time_s": 0.03911658300057752
+    }
+  ],
+  "mpc_energy_delta_j": -0.6044148437713375,
+  "mpc_energy_delta_percent": -0.018086592087163122,
+  "diagnostic_json_sha256": "41b7520bf7f1d6ef3a5236ebc4ed399c07c1035db39758ca413dd2469273cc2a"
+}

@@ -41,6 +41,18 @@ Generated JSON, CSV metrics, and SVG figures go to `runs/inference_serving/`.
 Each run replaces outputs there. The imported results in
 `artifacts/inference_serving/` remain separate and unchanged.
 
+Compare a full run with the recorded reference:
+
+```bash
+uv run --locked python scripts/compare_inference_results.py
+```
+
+The audit writes CSV and JSON evidence under `reports/simulation_reproduction/`
+and exits with status 1 if differences remain. The first full run reproduces all
+baseline metrics and MPC latency, with a 0.0181% MPC energy difference traced to
+clock-boundary rounding. See the [full report](reports/simulation_reproduction/README.md)
+for the comparison and diagnostic commands. Live GPU measurements are next.
+
 ## Repository contents
 
 - [PLAN.MD](PLAN.MD): reproduction and hardware evaluation milestones.
@@ -51,6 +63,7 @@ Each run replaces outputs there. The imported results in
 - [artifacts/inference_serving/README.md](artifacts/inference_serving/README.md):
   recorded comparison results.
 - `tests/`: imported simulator, controller, and replay regression tests.
+- `reports/`: compact comparison reports and diagnostic evidence to track in Git.
 - [docs/reference/README.md](docs/reference/README.md): source provenance and
   archival notes.
 

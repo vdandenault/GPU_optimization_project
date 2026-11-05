@@ -1,0 +1,173 @@
+{
+  "generated_at_utc": "2026-11-05T15:28:53.287549+00:00",
+  "comparison_passed": false,
+  "relative_tolerance": 1e-06,
+  "absolute_tolerance": 1e-08,
+  "csv_fields_compared": 233,
+  "csv_fields_matching": 229,
+  "csv_mismatches": [
+    {
+      "file": "metrics_mpc.csv",
+      "controller": "mpc",
+      "metric": "energy_j",
+      "reference": "3341.784018008512",
+      "generated": "3341.1796031647405",
+      "delta": -0.6044148437713375,
+      "matches": false
+    },
+    {
+      "file": "metrics_mpc.csv",
+      "controller": "mpc",
+      "metric": "energy_per_output_token_j",
+      "reference": "3.8148219383658812",
+      "generated": "3.814131967083037",
+      "delta": -0.000689971282844315,
+      "matches": false
+    },
+    {
+      "file": "metrics_mpc.csv",
+      "controller": "mpc",
+      "metric": "peak_temperature_c",
+      "reference": "66.74163014146343",
+      "generated": "66.74039572674818",
+      "delta": -0.0012344147152560936,
+      "matches": false
+    },
+    {
+      "file": "metrics_mpc.csv",
+      "controller": "mpc",
+      "metric": "peak_kv_tokens",
+      "reference": "8417.32774933241",
+      "generated": "8415.265525585703",
+      "delta": -2.062223746706877,
+      "matches": false
+    }
+  ],
+  "json_comparison": {
+    "checked_leaves": 24501,
+    "exactly_equal_leaves": 24203,
+    "mismatched_values": 298,
+    "differences_by_field": {
+      "/mpc/controllers/mpc/energy_j": {
+        "mismatched_values": 92,
+        "max_absolute_difference": 0.7069547073359672,
+        "first_difference": {
+          "path": "/mpc/controllers/mpc/energy_j/42",
+          "reference": 476.3883039990991,
+          "generated": 476.4087586186643
+        }
+      },
+      "/mpc/controllers/mpc/kv_tokens": {
+        "mismatched_values": 91,
+        "max_absolute_difference": 2.062223746706877,
+        "first_difference": {
+          "path": "/mpc/controllers/mpc/kv_tokens/42",
+          "reference": 976.1695833853005,
+          "generated": 975.9118054169622
+        }
+      },
+      "/mpc/controllers/mpc/metrics": {
+        "mismatched_values": 4,
+        "max_absolute_difference": 2.062223746706877,
+        "first_difference": {
+          "path": "/mpc/controllers/mpc/metrics/energy_j",
+          "reference": 3341.784018008512,
+          "generated": 3341.1796031647405
+        }
+      },
+      "/mpc/controllers/mpc/planned_clock_mhz": {
+        "mismatched_values": 12,
+        "max_absolute_difference": 915.0,
+        "first_difference": {
+          "path": "/mpc/controllers/mpc/planned_clock_mhz/42/0",
+          "reference": 2040.0,
+          "generated": 1125.0
+        }
+      },
+      "/mpc/controllers/mpc/power_w": {
+        "mismatched_values": 3,
+        "max_absolute_difference": 5.77580221404542,
+        "first_difference": {
+          "path": "/mpc/controllers/mpc/power_w/42",
+          "reference": 64.06764583333334,
+          "generated": 64.2721920289855
+        }
+      },
+      "/mpc/controllers/mpc/realized_clock_mhz": {
+        "mismatched_values": 2,
+        "max_absolute_difference": 30.0,
+        "first_difference": {
+          "path": "/mpc/controllers/mpc/realized_clock_mhz/42",
+          "reference": 969.375,
+          "generated": 939.375
+        }
+      },
+      "/mpc/controllers/mpc/requested_clock_mhz": {
+        "mismatched_values": 2,
+        "max_absolute_difference": 915.0,
+        "first_difference": {
+          "path": "/mpc/controllers/mpc/requested_clock_mhz/42",
+          "reference": 2040.0,
+          "generated": 1125.0
+        }
+      },
+      "/mpc/controllers/mpc/temperature_c": {
+        "mismatched_values": 92,
+        "max_absolute_difference": 0.0026830213326789476,
+        "first_difference": {
+          "path": "/mpc/controllers/mpc/temperature_c/42",
+          "reference": 59.2629033271195,
+          "generated": 59.26298097880628
+        }
+      }
+    }
+  },
+  "imported_code_data_and_reference_unchanged": {
+    "code/inference_serving.py": true,
+    "code/inference_control.py": true,
+    "code/inference_replay.py": true,
+    "data/inference_serving/azure_code_animation.csv": true,
+    "data/inference_serving/azure_code_evaluation.csv": true,
+    "data/inference_serving/l4_profile.csv": true,
+    "data/inference_serving/l4_profile_all_requested.csv": true,
+    "data/inference_serving/l4_profile_raw.csv": true,
+    "data/inference_serving/l4_telemetry.csv": true,
+    "data/inference_serving/profile_manifest.json": true,
+    "data/inference_serving/vllm.log": true,
+    "artifacts/inference_serving/textbook_results.json": true,
+    "artifacts/inference_serving/metrics_mpc.csv": true,
+    "artifacts/inference_serving/metrics_fqi.csv": true,
+    "artifacts/inference_serving/metrics_dp.csv": true,
+    "artifacts/inference_serving/metrics_open_loop.csv": true
+  },
+  "fqi_protocol": {
+    "evaluation_episodes": 2000,
+    "evaluation_horizon_steps": 300,
+    "maximum_depth": 12,
+    "minimum_leaf_size": 2,
+    "random_seed": 0,
+    "sweeps": 50,
+    "transitions_per_dataset": 50000,
+    "trees": 200
+  },
+  "environment": {
+    "python": "3.12.14",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "packages": {
+      "numpy": "2.3.1",
+      "scipy": "1.16.1",
+      "scikit-learn": "1.9.1",
+      "matplotlib": "3.10.3"
+    },
+    "git_head": "1a10499f4a603c95242e7216afc3c1f6ab1cb481",
+    "uv_lock_sha256": "22cadeb9083453cc4dce336fb85fba1f8be4481de2c89c94bb32c274ba85bcfc"
+  },
+  "artifact_sha256": {
+    "reference_json": "00857eea8e94a3d9f01565c0605053fe19dc8e07b413840c6e150f20ed278d7c",
+    "generated_json": "de4e55035d12ed4b2d7671cd149347cf291ab30643017bb4cb025578898ddbb7",
+    "metrics_mpc.csv": "6b8296d692d84da9ca86d27f1cb84c41d184fd4c1629fc99b9915caa1b780cf3",
+    "metrics_open_loop.csv": "9cf7cfb51a93dc901bb77928618596d8f5c594fa8b1d1216146a9eb6268e45dc",
+    "metrics_dp.csv": "2dadc3cae5179fd134bf140d72c4e4246bcc9c426320fb20eb535f85e0545d96",
+    "metrics_fqi.csv": "d2186eaf5dc6052403923637a71d6b05a10ed11c7f3b8db9f3b3e0bc2d5bc691"
+  }
+}

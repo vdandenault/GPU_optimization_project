@@ -143,6 +143,10 @@ resolve material implementation differences before starting GPU measurements.
   supported clock and power settings, and permissions to control them.
 - Inspect the existing driver, CUDA, and serving environment before changing
   dependencies; record the environment used for each run.
+- Define and test handling of solver values near supported clock boundaries.
+  The full reproduction exposed a value only 2.5e-12 MHz below 2040 MHz that
+  the original downward quantizer maps to 1125 MHz. Preserve the original
+  reproduction as a reference when introducing the hardware-controller policy.
 - Pin the model revision, serving software, scheduler configuration, and
   workload.
 - Prepare replay of the recorded workload with synthetic token-ID prompts and
@@ -239,17 +243,21 @@ carry over to our traffic.
 
 ## Progress
 
-Standalone import validated: all reference-profile checksums pass, 59 imported
-regression tests pass, and the quick artifact builder completes. A relocated
-copy also loads and validates the workload/profile, simulates two requests, and
-renders the recorded MPC figure using only files in that copy. Full numerical
-reproduction and live GPU evaluation remain to be completed.
+The full simulation and comparison completed on 2026-11-05. Baselines,
+open-loop, DP, and FQI metrics match exactly. MPC latency, request records,
+completion, and fallback diagnostics match; energy differs by -0.604415 J
+(-0.0181%) because of one clock-boundary rounding decision. An instrumented
+repeat and replay of reference clock decisions isolate the cause. Strict
+comparison reports 229/233 CSV fields matching and does not claim an exact
+MPC numerical match. All imported code/data/reference checksums are unchanged,
+and 66 tests pass. See the [full report](reports/simulation_reproduction/README.md).
+Live GPU evaluation and a robust clock-boundary policy remain to be completed.
 
-- [ ] Reproduction target documented.
+- [x] Reproduction target documented.
 - [x] Repository and environment set up.
-- [ ] Baseline simulations reproduced.
-- [ ] MPC reproduced with diagnostics and fallback.
-- [ ] Four-controller simulation report verified.
+- [x] Baseline simulations reproduced.
+- [x] MPC reproduced with diagnostics and fallback (rounding difference documented).
+- [x] Four-controller simulation report verified (strict differences retained).
 - [ ] Hardware benchmark prepared.
 - [ ] Recorded workload replayed on the L4 at fixed clocks; fresh measurements captured.
 - [ ] Prediction models calibrated and validated.
