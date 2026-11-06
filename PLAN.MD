@@ -200,6 +200,15 @@ resolve material implementation differences before starting GPU measurements.
 
 **Deliverable:** A hardware benchmark runner and documented acquisition protocol.
 
+A bounded environment-qualification pilot is implemented in
+`scripts/run_hardware_pilot.py`, with an isolated locked vLLM runtime and four
+development trace rows. It targets the existing RTX PRO 4000 Blackwell Pod at
+default host settings and retains checkpoints, raw records, watchdog outcomes,
+and provenance limitations. This additional pilot does not qualify an L4
+reproduction, a new measured profile, clock controls, or live MPC. See
+[`docs/hardware-pilot.md`](docs/hardware-pilot.md). The hardware benchmark milestone
+remains incomplete until the measurement and control protocol is qualified.
+
 ### 7. Capture fixed-clock baselines, calibrate, and validate
 
 - Begin acquisition with fixed-clock runs of the recorded workload, measuring

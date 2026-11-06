@@ -94,9 +94,11 @@ setup/download time, and transfers separately.
 [L4 pricing](https://www.runpod.io/gpu-models/l4).
 
 Start with fixed-clock replay of the included workload, collect fresh
-calibration, and validate it before live MPC. The live runner and RunPod
-environment qualification remain planned work. The local simulation does not
-provision cloud resources.
+calibration, and validate it before live MPC. A [bounded environment qualification
+pilot](docs/hardware-pilot.md) now prepares an isolated serving runtime and replays
+four development requests on the existing RTX PRO 4000 Blackwell Pod at default
+settings. Fixed-clock acquisition, calibrated cross-GPU profiles, and live MPC
+remain planned work. The local simulation does not provision cloud resources.
 
 ### GPU candidates and comparison scope
 
@@ -261,7 +263,11 @@ runs/<run-id>/
   Keep compact summaries and artifact locations/checksums in Git; keep bulky
   telemetry, checkpoints, and weights in persistent storage.
 
-These are requirements for the forthcoming hardware runner. The current
+These are requirements for the forthcoming measurement runner. The bounded
+qualification runner records incremental telemetry, request outcomes, source and
+environment manifests, and atomic integrity checkpoints; interrupted attempts
+are retained and retries use new directories. See the [pilot protocol](docs/hardware-pilot.md).
+The current
 simulation builder writes to the fixed `runs/inference_serving/` directory and
 does not implement resumable checkpoints. Archive each completed output under
 its run ID before another build replaces it.
