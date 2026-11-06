@@ -192,12 +192,12 @@ dev = [
 requires-dist = [
     { name = "matplotlib", specifier = "==3.10.3" },
     { name = "numpy", specifier = "==2.3.1" },
-    { name = "scikit-learn", specifier = ">=1.6,<2" },
+    { name = "scikit-learn", specifier = "==1.9.1" },
     { name = "scipy", specifier = "==1.16.1" },
 ]
 
 [package.metadata.requires-dev]
-dev = [{ name = "pytest", specifier = ">=8,<10" }]
+dev = [{ name = "pytest", specifier = "==9.2.0" }]
 
 [[package]]
 name = "iniconfig"

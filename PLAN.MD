@@ -4,7 +4,8 @@
 
 Reproduce the GPU frequency-control experiment described in
 [`mpc-variants-reliability.md`](docs/reference/mpc-variants-reliability.txt), then
-evaluate the controller on a real GPU. The controller adjusts GPU clocks as
+evaluate the controller on real GPUs, using L4 as the reproduction reference
+and comparing the candidates below on the same workload. The controller adjusts GPU clocks as
 inference demand changes to reduce energy while managing latency, queueing,
 and temperature.
 
@@ -17,12 +18,14 @@ This milestone requires no GPU access.
 Start with the existing workload dataset and recorded measurements. Once the
 simulation agrees with the reference, capture fresh GPU measurements on the
 available L4 using the same workload, calibrate and validate the model, and
-compare controllers on hardware. Evaluate our own traffic afterward.
+compare controllers on hardware. Compare the same recorded workload across GPU
+candidates using fresh calibration for each device/host. Evaluate our own
+traffic afterward.
 
 | Data | Contents | Initial source and use |
 |---|---|---|
 | Request trace | Arrival times, prompt lengths, output lengths | Recorded Azure dataset, reused for simulation and initial hardware replay |
-| GPU measurements | Power, temperature, realized clocks, throughput, latency | Archived L4 measurements for reproduction; fresh measurements from our VM for live calibration and evaluation |
+| GPU measurements | Power, temperature, realized clocks, throughput, latency | Archived L4 measurements for reproduction; fresh measurements from our RunPod L4 for live calibration and evaluation |
 
 The request trace supplies timing and token counts, rather than original
 prompt text. Hardware replay follows the reference's synthetic token-ID
@@ -33,17 +36,43 @@ same workload.
 The first hardware acquisition is a fixed-clock baseline and calibration run
 using the recorded workload. Collecting our own traffic follows the reference
 reproduction and hardware comparison. This sequence helps distinguish
-implementation differences, VM performance differences, and workload effects.
+implementation differences, host performance differences, and workload effects.
 
 ## Available Infrastructure
 
-- Use the existing Google Cloud VM with an NVIDIA L4 for hardware experiments.
-- Record the VM project, zone, instance name, operating system, NVIDIA driver,
-  and access method during setup.
+- Use single-GPU, on-demand RunPod Secure Cloud Pods for hardware experiments.
+  The L4 remains the reproduction reference; RTX A5000, RTX 4090, A40, L40S,
+  and A100 PCIe 80 GB are comparison candidates. This replaces the earlier Google Cloud
+  VM plan; historical Google Cloud acquisitions remain reference provenance.
+- Record the Pod and data-center IDs, storage/volume IDs, GPU UUID, operating
+  system, NVIDIA driver, immutable image digest, and access method during setup.
+- Use Full SSH for standard file transfers and verified persistent storage for
+  checkpoints and results. Follow the version/checkpoint guidelines in
+  [AGENTS.md](AGENTS.md) and the [README](README.md#hardware-work).
 - The Azure request trace is a public workload dataset used by the reference
-  experiment. Replaying it on the Google Cloud VM requires no Azure resources.
+  experiment. Replaying it on RunPod requires no Azure resources.
 - Keep the recorded trace for the initial reproduction; evaluate additional
   workloads separately after establishing agreement with the reference.
+
+### GPU candidate matrix
+
+RunPod Secure Cloud on-demand listings verified **2026-11-05**; recheck actual
+offers at launch. Prices exclude storage and transfers. Use one GPU per trial.
+
+| Candidate | VRAM | Listed USD/hour | Initial purpose |
+|---|---:|---:|---|
+| [RTX A5000](https://www.runpod.io/gpu-models/rtx-a5000) | 24 GB | $0.27 | Live-stack smoke run, then common-workload measurement if qualified |
+| [L4](https://www.runpod.io/gpu-models/l4) | 24 GB | $0.59 | Original hardware reference and primary baseline |
+| [RTX 4090](https://www.runpod.io/gpu-models/rtx-4090) | 24 GB | $0.89 | First matched speed/energy/cost comparison against L4 |
+| [A40](https://www.runpod.io/gpu-models/a40) | 48 GB | $0.59 | Common workload and larger-memory capacity experiments |
+| [L40S](https://www.runpod.io/gpu-models/l40s) | 48 GB | $1.09 | Common workload and larger-memory throughput experiments |
+| [A100 PCIe](https://www.runpod.io/gpu-models/a100-pcie) | 80 GB | $1.79 | Common workload and capacity experiments exceeding 48 GB |
+
+Start the primary comparison with L4 and RTX 4090. Screen other candidates with
+bounded pilots before committing to full repeats within the experiment budget.
+Local simulator smoke checks need no rented GPU. Keep candidate selection,
+actual availability, management permissions, and measured outcomes in the run
+records; a listed candidate is not yet a qualified platform.
 
 ## Stage 1: Reproduce the Recorded Simulation
 
@@ -139,8 +168,9 @@ resolve material implementation differences before starting GPU measurements.
 
 ### 6. Prepare a reproducible hardware benchmark
 
-- Use the existing Google Cloud VM with its NVIDIA L4. Verify GPU visibility,
-  supported clock and power settings, and permissions to control them.
+- Qualify the RunPod L4: verify GPU visibility, telemetry, supported clock and
+  power settings, and permissions to control them. GPU management access must
+  be verified on the actual Pod before a long acquisition.
 - Inspect the existing driver, CUDA, and serving environment before changing
   dependencies; record the environment used for each run.
 - Define and test handling of solver values near supported clock boundaries.
@@ -156,9 +186,15 @@ resolve material implementation differences before starting GPU measurements.
   timing, and controller decisions.
 - Define trial validity checks, conditioning procedures, independent measured
   temperature watchdogs, and cleanup behavior.
-- Define experiment duration, storage locations, and cost scope for the existing
-  VM. Restore the prior clock and power settings after each experiment and keep
-  workload cleanup separate from the VM lifecycle.
+- Define experiment duration, storage locations, and cost scope for the Pod.
+  Freeze the qualified image and package versions. Restore prior GPU settings
+  after each experiment and keep workload cleanup separate from Pod lifecycle.
+- Implement unique run/trial IDs, manifests, incremental telemetry, atomic
+  checkpoints at trial boundaries, and verified artifact backups. Preserve
+  interrupted attempts; resume from completed trials with matching inputs.
+- Include GPU model/variant, UUID, CPU/RAM allocation, image/driver, telemetry
+  capability, and profile identifiers in every run manifest so the same runner
+  can qualify the cross-GPU candidates in Stage 3.
 
 **Deliverable:** A hardware benchmark runner and documented acquisition protocol.
 
@@ -171,7 +207,7 @@ resolve material implementation differences before starting GPU measurements.
 - Use fresh calibration when hardware, power cap, or serving configuration
   differs from the recorded experiment. Keep the original 64.8 W simulation
   calibration separate from the later 40 W live development measurements.
-- Collect and validate a calibration on the available L4 VM before live MPC;
+- Collect and validate a calibration on the RunPod L4 before live MPC;
   matching the GPU model alone does not establish matching performance or power.
 - Fit the model on development measurements and validate on separate whole
   runs before enabling live MPC.
@@ -212,9 +248,58 @@ variability, validity, and fallback behavior. MPC is not assumed to win.
 The reference's broader live fixed-clock/governor/MPC comparison has not reached
 confirmation. Completing this stage extends the recorded work.
 
-## Stage 3: Evaluate Our Own Workload
+## Stage 3: Compare GPU Platforms
 
-### 9. Capture and evaluate representative traffic
+### 9. Run matched workloads across the candidate GPUs
+
+- Qualify L4 and RTX 4090 first, then RTX A5000, A40, L40S, and A100 PCIe 80 GB
+  as budget and availability allow. Use one GPU per trial and retain the exact
+  model/variant and host identity.
+- Freeze a common-workload suite that fits the intended 24 GB comparison:
+  identical model/tokenizer revision, precision, context limit, request rows,
+  prompt/output lengths, arrival schedule, scheduler, batching, and concurrency.
+  Record KV capacity and memory-allocation settings. Use common latency targets.
+- Use a common qualified image where supported. Record required architecture,
+  kernel, or image differences rather than silently changing software settings.
+  Log CPU/RAM allocation and region to expose host differences in the platform
+  results. Preserve all environment and checkpoint rules in AGENTS.md.
+- Collect a fresh calibration per GPU/host. Extend the current L4-specific
+  measured-profile schema/validator before accepting other devices; retain the
+  existing L4 validation and immutable reference bundle.
+- Compare qualified default operating settings first. Evaluate maximum-clock,
+  fixed-clock, governor, and MPC policies where controls are available, using
+  each GPU's supported clock/power settings and its own validated model.
+  Record operating limits explicitly; the L4 clock grid and 64.8 W cap are not
+  assumed portable. Label hosts without controls as inference-only candidates.
+- Pair identical workloads and schedules across GPUs; repeat trials and
+  acquisitions for finalists. Preserve conditioning, request drainage, SLO
+  failures, OOM, unsupported settings, interrupted trials, and fallback events.
+  A workload that fails on one device must retain that outcome without quietly
+  changing its model, precision, or batch settings.
+- Report mean/p95 TTFT and TPOT, end-to-end latency, output tokens/second,
+  completion time, request/SLO failures, memory use, measured GPU joules,
+  joules/output token, realized clocks, temperatures, and solver behavior.
+  Record telemetry sampling and availability for each device.
+- Calculate timed-run compute cost from the actual rental rate and measured
+  billable duration. Report total session cost separately, including setup,
+  downloads, warm-up/conditioning, retries, storage, and transfers. Derive cost
+  per completed workload and output token with overhead allocation stated.
+- Show speed/energy/cost ratios against L4 on matched configurations and
+  controller improvements against each GPU's own baseline. Rank energy/cost at
+  a frozen common latency target and retain devices that miss it in the report.
+- Add a separately named capacity suite for longer contexts, larger batches,
+  or models requiring 48/80 GB. Keep configuration fixed within each comparison
+  and label unsupported/OOM devices. Keep these outcomes separate from the
+  common-workload results.
+
+**Deliverable:** A cross-GPU results matrix with measured speed, energy, rental
+cost, SLO compliance, memory/capability limits, uncertainty across repeats, and
+links to per-device calibration and run records. Distinguish L4 reproduction,
+hardware-platform comparisons, and larger-capacity experiments.
+
+## Stage 4: Evaluate Our Own Workload
+
+### 10. Capture and evaluate representative traffic
 
 - After completing the reference-workload hardware comparison, collect a
   representative request trace from our intended application, including arrival
@@ -243,6 +328,11 @@ carry over to our traffic.
 
 ## Progress
 
+Unit tests are optional. Acceptance focuses on checksums, reference comparisons,
+solver diagnostics, request completion, and relevant smoke/hardware measurements.
+Future long hardware runners must preserve checkpoints and partial acquisitions
+as specified in AGENTS.md.
+
 The full simulation and comparison completed on 2026-11-05. Baselines,
 open-loop, DP, and FQI metrics match exactly. MPC latency, request records,
 completion, and fallback diagnostics match; energy differs by -0.604415 J
@@ -262,4 +352,8 @@ Live GPU evaluation and a robust clock-boundary policy remain to be completed.
 - [ ] Recorded workload replayed on the L4 at fixed clocks; fresh measurements captured.
 - [ ] Prediction models calibrated and validated.
 - [ ] Live comparison completed and reported.
+- [ ] Candidate GPU/host capability matrix qualified.
+- [ ] Matched-workload L4/RTX 4090 comparison completed.
+- [ ] Remaining qualified GPU candidates measured and cross-GPU report published.
+- [ ] Larger-memory capacity suite evaluated separately where applicable.
 - [ ] Own workload captured and evaluated after the reference comparison.
