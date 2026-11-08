@@ -1,0 +1,34 @@
+{
+  "run_id": "development-baseline-20261108T204757Z-302f81e6",
+  "scope": "Exploratory default-settings development baseline; not an accepted benchmark",
+  "requests_complete": 32,
+  "prompt_tokens": 81516,
+  "output_tokens": 709,
+  "replay_duration_s": 41.66429450805299,
+  "output_tokens_per_s_including_arrival_gaps": 17.016968806779207,
+  "board_energy_j_diagnostic": 3274.4802007504773,
+  "average_board_power_w": 78.59199920252044,
+  "board_j_per_output_token_including_prefill_and_idle": 4.618448802186851,
+  "ttft_s": {
+    "mean": 3.828958952704852,
+    "p95": 6.453328535426408
+  },
+  "end_to_end_s": {
+    "mean": 5.062647565668158,
+    "p95": 8.125600095815026
+  },
+  "client_stream_tpot_ms_per_request": {
+    "mean": 59.443918997089746,
+    "p95": 93.6867747634616
+  },
+  "max_dispatch_lateness_ms": 0.22302614524960518,
+  "percentile_method": "Linear interpolation at (n-1)*0.95",
+  "limitations": [
+    "Single acquisition; no explicit workload warm-up",
+    "GPU settings unchanged; clock and power controls unqualified",
+    "Immutable deployed image digest unverified",
+    "Client stream timings are not GPU token-generation timestamps",
+    "No frozen latency targets or SLO acceptance claim"
+  ],
+  "source_outcome_sha256": "b4c96e71eaf72057aa8e40ca9f3c33139676b523925e7e0984529cb42399095c"
+}
